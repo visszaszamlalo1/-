@@ -1,1 +1,143 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>?????</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet"> <!-- Roboto betűtípus -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #2C5364, #0F2027, #203A43); 
+            background-size: 200% 200%;
+            animation: backgroundMove 20s ease infinite; 
+            color: #fff;
+            text-align: center;
+        }
 
+        #countdown {
+            display: flex;
+            gap: 50px; 
+            font-size: 4rem;
+        }
+
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .label {
+            font-size: 1.5rem;
+            margin-top: 15px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .time-box span {
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
+        }
+        @keyframes backgroundMove {
+            0% {
+                background-position: 0% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+        @keyframes flash {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .flash {
+            animation: flash 0.5s ease-in-out;
+        }
+
+        /* Mobil optimalizálás */
+        @media (max-width: 600px) {
+            #countdown {
+                flex-direction: column;
+                gap: 30px;
+                font-size: 3rem;
+            }
+
+            .label {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="countdown">
+        <div class="time-box" id="days-box">
+            <span id="days">00</span>
+            <span class="label">Nap</span>
+        </div>
+        <div class="time-box" id="hours-box">
+            <span id="hours">00</span>
+            <span class="label">Óra</span>
+        </div>
+        <div class="time-box" id="minutes-box">
+            <span id="minutes">00</span>
+            <span class="label">Perc</span>
+        </div>
+        <div class="time-box" id="seconds-box">
+            <span id="seconds">00</span>
+            <span class="label">Másodperc</span>
+        </div>
+    </div>
+
+    <script>
+        function countdown() {
+            const countDownDate = new Date("2024-10-07T18:00:00").getTime();
+
+            const x = setInterval(function () {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("days").innerHTML = days;
+                document.getElementById("hours").innerHTML = hours;
+                document.getElementById("minutes").innerHTML = minutes;
+                document.getElementById("seconds").innerHTML = seconds;
+
+                if (distance < 0) {
+                    clearInterval(x);
+        
+                }
+            }, 1000);
+        }
+
+        function flashAnimation() {
+            const countdown = document.getElementById("countdown");
+            countdown.classList.add("flash");
+
+            setTimeout(() => {
+                countdown.classList.remove("flash");
+            }, 500); 
+        }
+        setInterval(flashAnimation, 10000);
+
+        countdown();
+    </script>
+
+</body>
+</html>
